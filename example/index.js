@@ -15,6 +15,12 @@ angular
 
 document.addEventListener('DOMContentLoaded', function () {
   var body = document.querySelector('body')
+  var a = document.createElement('a')
+
+  a.innerText = 'View on GitHub'
+  a.href = 'https://github.com/kareniel/nanocomponent-adapters-angularjs'
+
+  body.appendChild(a)
   body.appendChild(document.createElement('example-page'))
   angular.bootstrap(body, ['example-app'])
 })
