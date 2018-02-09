@@ -2,7 +2,16 @@
 
 small wrapper around nanocomponents for angular 1.x
 
+
+
 ## usage 
+
+### `wrappedComponent = toAngularjs(name, Component, angular)`
+registers a new module with the given Angular instance and returns a
+string of the module's name.
+
+
+## example
 
 ```js
 var angular = require('angular')
