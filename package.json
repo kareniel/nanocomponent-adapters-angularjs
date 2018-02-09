@@ -1,0 +1,33 @@
+{
+  "name": "nanocomponent-adapters-angularjs",
+  "version": "0.1.0",
+  "description": "small wrapper around nanocomponents for angularjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run example",
+    "example": "budo example/index.js:bundle.js --port 8080 --live",
+    "test": "browserify test | tape-run",
+    "build:example": "bankai build example dist"
+  },
+  "keywords": [
+    "angularjs",
+    "migrate",
+    "migration",
+    "nanocomponent",
+    "components"
+  ],
+  "author": "kareniel",
+  "license": "MIT",
+  "peerDependencies": {
+    "angular": ">= 1.5.3"
+  },
+  "devDependencies": {
+    "angular": "^1.5.11",
+    "bankai": "^9.5.1",
+    "budo": "^11.1.0",
+    "standard": "^10.0.3",
+    "tape": "^4.8.0",
+    "tape-run": "^3.0.3",
+    "twitter-component": "^1.0.2"
+  }
+}
