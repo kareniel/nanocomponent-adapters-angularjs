@@ -4,33 +4,38 @@ var assert = require('assert')
 
 module.exports = toAngularjs
 
-function toAngularjs (name, Component, angular) {
-  assert.equal(typeof name, 'string', 'nanocomponent-adapters/angularjs: name should be type string')
-  assert.equal(typeof Component, 'function', 'nanocomponent-adapters/angularjs: component should be type function')
-  assert.equal(typeof angular, 'object', 'nanocomponent-adapters/angularjs: angular should be type object')
+function toAngularjs (Component, name, attrs, angular) {
+  assert.equal(typeof Component, 'function', 'nanocomponent-adapters/angularjs: Component should be type function')
+  assert.equal(typeof name, 'string', 'nanocomponent-adapters/angularjs: name should be a string')
+  assert.equal(typeof attrs, 'object', 'nanocomponent-adapters/angularjs: attrs should be an array')
+  assert.equal(typeof angular, 'object', 'nanocomponent-adapters/angularjs: angular should be an object')
+
+  var component = new AngularComponent(Component, attrs)
 
   return angular
     .module('nanocomponent.' + name, [])
-    .component(name, ControllerFn(Component))
+    .component(name, component)
     .name
 }
 
-function ControllerFn (Component) {
-  if (!(this instanceof ControllerFn)) return new ControllerFn(Component)
-
+function AngularComponent (Component, attrs) {
   controller.$inject = ['$element']
 
-  return {
+  var component = {
     template: '<div></div>',
-    controller: controller,
-    bindings: {
-      state: '<',
-      emit: '<'
-    }
+    bindings: {},
+    controller
   }
+
+  attrs.forEach(attr => {
+    component.bindings[attr] = '<'
+  })
+
+  return component
 
   function controller ($element) {
     this.component = new Component()
+    this.attrs = attrs
     this.el = this.component.render(this.state, this.emit)
 
     this.$postLink = function () {
@@ -38,7 +43,9 @@ function ControllerFn (Component) {
     }
 
     this.$onChanges = function () {
-      this.el = this.component.render(this.state, this.emit)
+      var args = attrs.map(attr => this[attr])
+
+      this.el = this.component.render(...args)
     }
   }
 }

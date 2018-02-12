@@ -2,12 +2,12 @@ var angular = require('angular')
 var TwitterComponent = require('twitter-component')
 var toAngularjs = require('../.')
 
-var componentModule = toAngularjs('twitterComponent', TwitterComponent, angular)
+var componentModule = toAngularjs(TwitterComponent, 'twitterComponent', ['url'], angular)
 
 angular
   .module('example-app', [ componentModule ])
   .component('examplePage', {
-    template: '<twitter-component state="$ctrl.url"></twitter-component>',
+    template: '<twitter-component url="$ctrl.url"></twitter-component>',
     controller: function () {
       this.url = 'https://twitter.com/yoshuawuyts/status/730087077803528193'
     }
